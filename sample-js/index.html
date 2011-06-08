@@ -13,11 +13,11 @@
 	}
    
 	if (window.location.hash.length == 0) {
-		var url = 'http://localhost:9000/openapi/authenticate?urlCallback=' + window.location;
+		var url = 'http://www.beansight.com/api/authenticate?urlCallback=' + window.location;
 		window.location = url;
      } else {
 		var accessToken = window.location.hash.substring(1);
-		var path = "http://localhost:9000/openapi/getInsights?";
+		var path = "http://www.beansight.com/api/insights/list?";
 		
 		var queryParams = [accessToken, 'callback=?']; // "callback=?" to do cross sites javascript calls (to use JSONP)
 		var query = queryParams.join('&');

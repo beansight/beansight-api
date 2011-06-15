@@ -13,7 +13,7 @@
 	}
    
 	if (window.location.hash.length == 0) {
-		var url = 'http://www.beansight.com/api/authenticate?urlCallback=' + window.location;
+		var url = 'http://www.beansight.com/api/authenticate?tokenResultType=fragment&urlCallback=' + window.location;
 		window.location = url;
      } else {
 		var accessToken = window.location.hash.substring(1);

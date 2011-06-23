@@ -7,8 +7,8 @@
 
    <script> 
 	function getInsightsSuccess(data){
-   		for(var i = 0; i < data.response.insights.length; i++) {
-   			$('#insights').append('<li>' + new Date(data.response.insights[i].endDate).toDateString() + ", " + data.response.insights[i].content + '</li>');
+   		for(var i = 0; i < data.response.length; i++) {
+   			$('#insights').append('<li>' + new Date(data.response[i].endDate).toDateString() + ", " + data.response[i].content + '</li>');
    		}
 	}
    

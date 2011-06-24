@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.beansight.android.api.BeansightApi;
 import com.beansight.android.api.NotAuthenticatedException;
-import com.beansight.android.models.Insight;
+import com.beansight.android.models.InsightItem;
 import com.beansight.android.models.InsightListItem;
 
 public class HomeActivity extends Activity {

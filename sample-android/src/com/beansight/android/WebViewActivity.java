@@ -19,8 +19,8 @@ public class WebViewActivity extends Activity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
         
-        // setting token_result=fragment allows to have the access token after a # : example http://foobar.com#access_token=76063297-f5ab-4b82-a0bd-571d27b01074
-        String url = String.format("%s/api/authenticate?tokenResultType=fragment", BeansightApplication.domain);
+        String url = "http://10.0.2.2:9000/api/authenticate";
+        
         WebView webView = (WebView)findViewById(R.id.webkitWebView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {

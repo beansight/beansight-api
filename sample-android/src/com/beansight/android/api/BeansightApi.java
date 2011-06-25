@@ -2,12 +2,9 @@ package com.beansight.android.api;
 
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Log;
@@ -19,12 +16,11 @@ import com.beansight.android.models.InsightItemResponse;
 import com.beansight.android.models.InsightListItem;
 import com.beansight.android.models.InsightListItemResponse;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class BeansightApi {
 
 	final private static HttpClient client = new DefaultHttpClient(); 
-	private static String domain = "http://10.0.2.2:9000";
+	private static String domain = "http://www.beansight.com";
 	
 	
 	public static InsightItem show(String accessToken, String id) throws NotAuthenticatedException {

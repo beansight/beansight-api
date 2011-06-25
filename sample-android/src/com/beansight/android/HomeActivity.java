@@ -1,5 +1,6 @@
 package com.beansight.android;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,9 @@ import android.widget.TextView;
 
 import com.beansight.android.api.BeansightApi;
 import com.beansight.android.api.NotAuthenticatedException;
-import com.beansight.android.models.InsightItem;
+import com.beansight.android.models.InsightDetail;
 import com.beansight.android.models.InsightListItem;
+import com.beansight.android.models.InsightListItemResponse;
 
 public class HomeActivity extends Activity {
 	
@@ -40,16 +42,20 @@ public class HomeActivity extends Activity {
 		arrayAdapter = new ArrayAdapter(this, R.layout.insight_item, insightList);
 		insightListView.setAdapter(arrayAdapter);
 		
-		List<InsightListItem> insightListItems = null;
+		InsightListItemResponse insightListItemResponse = null;
 		try {
-			insightListItems = BeansightApi.list(accessToken, null, null, null, null, null, null, null, null);
-		} catch (NotAuthenticatedException e) {
-			startActivity( new Intent(this, WebViewActivity.class) );
+		insightListItemResponse = BeansightApi.list(accessToken, null, null, null, null, null, null, null, null);
+			if (insightListItemResponse != null && !insightListItemResponse.getMeta().isAuthenticated()) {
+				startActivity( new Intent(this, WebViewActivity.class) );
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			// FIXME should handle this better ...
 		}
 		
 		
-		if (insightListItems != null) {
-			for (InsightListItem item : insightListItems) {
+		if (insightListItemResponse != null && insightListItemResponse.getResponse() != null) {
+			for (InsightListItem item : insightListItemResponse.getResponse()) {
 				this.arrayAdapter.add(item.getContent());
 			}
 			this.arrayAdapter.notifyDataSetChanged();

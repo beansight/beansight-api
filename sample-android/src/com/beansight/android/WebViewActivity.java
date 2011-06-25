@@ -19,13 +19,13 @@ public class WebViewActivity extends Activity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
         
-        String url = "http://10.0.2.2:9000/api/authenticate";
+        String url = "http://www.beansight.com/api/authenticate?";
         
         WebView webView = (WebView)findViewById(R.id.webkitWebView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                String fragment = "#access_token=";
+                String fragment = "?access_token=";
                 int start = url.indexOf(fragment);
                 if (start > -1) {
                     // You can use the accessToken for api calls now.

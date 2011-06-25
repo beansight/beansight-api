@@ -11,8 +11,8 @@ import android.util.Log;
 
 import com.beansight.android.http.Http;
 import com.beansight.android.http.Http.HttpRequestBuilder;
-import com.beansight.android.models.InsightItem;
-import com.beansight.android.models.InsightItemResponse;
+import com.beansight.android.models.InsightDetail;
+import com.beansight.android.models.InsightDetailResponse;
 import com.beansight.android.models.InsightListItem;
 import com.beansight.android.models.InsightListItemResponse;
 import com.google.gson.Gson;
@@ -23,28 +23,28 @@ public class BeansightApi {
 	private static String domain = "http://www.beansight.com";
 	
 	
-	public static InsightItem show(String accessToken, String id) throws NotAuthenticatedException {
-		Log.v("BeansightApi.show", String.format("access_token=%s insightUniqueId=%s" , accessToken, id));
+	public static InsightDetailResponse show(String accessToken, String id) throws NotAuthenticatedException {
+		Log.v("BeansightApi.show", String.format("access_token=%s id=%s" , accessToken, id));
 		
-		InsightItemResponse insightItemResponse = null;
+		InsightDetailResponse insightDetailResponse = null;
 		String url = String.format("%s/api/insights/show", domain);
 		try {
 			String result = Http.get(url).use(client)
 				.data("access_token", accessToken)
-				.data("insightUniqueId", id)
+				.data("id", id)
 				.asString();
 			Gson gson = new Gson();
-			insightItemResponse = gson.fromJson(result, InsightItemResponse.class);
+			insightDetailResponse = gson.fromJson(result, InsightDetailResponse.class);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		return insightItemResponse.getResponse();
+		return insightDetailResponse;
 	}
 	
-	public static List<InsightListItem> list(String accessToken, Integer from,
+	public static InsightListItemResponse list(String accessToken, Integer from,
 			Integer number, String sort, Integer category,
-			String vote, String topic, Boolean closed, Boolean created) throws NotAuthenticatedException {
+			String vote, String topic, Boolean closed, Boolean created) throws IOException {
 		
 		String url = String.format("%s/api/insights/list", domain);
 		HttpRequestBuilder httpRequestbuilder = Http.get(url).use(client).data("access_token", accessToken);
@@ -74,16 +74,17 @@ public class BeansightApi {
 		}
 		
 		InsightListItemResponse insightListResponse = null;
+		String result = "";
 		try {
-			String result = httpRequestbuilder.asString();
-			Gson gson = new Gson();
+			result = httpRequestbuilder.asString();
+		} catch (NotAuthenticatedException e) {
+			// can't happen : list access isn't a protected resource
+		}
+		Gson gson = new Gson();
 //	        Type insightListItemType = new TypeToken<InsightListItemResponse>() {}.getType();
-			insightListResponse = gson.fromJson(result, InsightListItemResponse.class);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		} 			
+		insightListResponse = gson.fromJson(result, InsightListItemResponse.class);
 	        
-		return insightListResponse.getResponse();
+		return insightListResponse;
 	}
 	
 }
